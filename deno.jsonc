@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "install": "deno run --allow-env --allow-read --allow-write ./utils/install.ts",
+    "generate": "deno run --allow-write --allow-read ./scripts/genKey.ts",
+    "encrypt": "deno run --allow-read --allow-write ./scripts/encryptFile.ts",
+    "decrypt": "deno run --allow-read --allow-write ./scripts/decryptFile.ts"
+  },
+  "imports": {
+    "$std/": "https://deno.land/std@0.201.0/"
+  }
+}
