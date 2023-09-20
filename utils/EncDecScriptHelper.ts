@@ -1,5 +1,4 @@
-import * as colors from "$std/fmt/colors.ts";
-import { dirname, resolve } from "$std/path/mod.ts";
+import { colors, dirname, resolve } from "../deps.ts";
 import { readKey } from "../utils/readAndStoreKeys.ts";
 import * as mainFunc from "../utils/encryptAndDecrypt.ts";
 
@@ -9,19 +8,25 @@ interface EncDecScriptHelperOptions {
 
 export async function EncDecScriptHelper(
   filePath: string,
-  keyPath: string,
+  keyPathOrKey: string | CryptoKey,
   mode: "encrypt" | "decrypt",
   options: EncDecScriptHelperOptions = { logSuccess: false },
 ) {
   const fileDir = dirname(filePath);
 
-  const key = (await readKey(keyPath).catch((err) => {
-    if (err instanceof Deno.errors.NotFound) {
-      console.log(colors.brightYellow(`Key: ${keyPath} not found.`));
-      return;
-    }
-    throw err;
-  })) as CryptoKey;
+  let key = keyPathOrKey;
+
+  if (keyPathOrKey instanceof CryptoKey) {
+    key = keyPathOrKey;
+  } else {
+    key = (await readKey(keyPathOrKey).catch((err) => {
+      if (err instanceof Deno.errors.NotFound) {
+        console.log(colors.brightYellow(`Key: ${keyPathOrKey} not found.`));
+        return;
+      }
+      throw err;
+    })) as CryptoKey;
+  }
 
   const tempFilePath = await Deno.makeTempFile({
     dir: fileDir,
@@ -38,7 +43,7 @@ export async function EncDecScriptHelper(
   } catch (err) {
     console.log(colors.brightYellow(`An error was thrown. Aborting. ${err}`));
     await Deno.remove(tempFilePath);
-    return;
+    throw err;
   }
 
   try {
@@ -52,16 +57,19 @@ export async function EncDecScriptHelper(
     console.log(colors.brightYellow(`Check contents in the following files:`));
     console.log(colors.white(resolve(filePath)));
     console.log(colors.white(resolve(tempFilePath)));
-    return;
+    throw err;
   }
 
   if (options.logSuccess) {
     console.log(colors.brightGreen(`Successful ${mode}ion!! 🎉🎊🎉🎊`));
+    const keyText = keyPathOrKey instanceof CryptoKey
+      ? JSON.stringify(keyPathOrKey.algorithm)
+      : resolve(keyPathOrKey);
     console.log(
       colors.brightGreen(`The file: `) +
         colors.white(resolve(filePath)) +
         colors.brightGreen(` was ${mode}ed 🔐 using the key: `) +
-        colors.white(resolve(keyPath)),
+        colors.white(keyText),
     );
   }
 }

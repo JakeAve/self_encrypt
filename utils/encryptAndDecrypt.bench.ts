@@ -92,3 +92,13 @@ Deno.bench(async function encrypt1MBPdfFile(b) {
 Deno.bench(async function decrypt1MBPdfFile(b) {
   await encryptAndDecryptFile(PDF_FILE_PATH, b, "dec");
 });
+
+const VIDEO_FILE_PATH = "./test_utils/35-mb-vid.mp4";
+
+Deno.bench(async function encrypt35MBVideo(b) {
+  await encryptAndDecryptFile(VIDEO_FILE_PATH, b, "enc");
+});
+
+Deno.bench(async function decrypt35MBVideo(b) {
+  await encryptAndDecryptFile(VIDEO_FILE_PATH, b, "dec");
+});

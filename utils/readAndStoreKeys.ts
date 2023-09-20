@@ -1,4 +1,4 @@
-import { dirname } from "$std/path/dirname.ts";
+import { dirname } from "../deps.ts";
 
 export async function storeKey(filePath: string, key: CryptoKey) {
   const raw = await crypto.subtle.exportKey("raw", key);
