@@ -19,4 +19,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload $GITHUB_REF target/self_encrypt_aarch64-apple-darwin.raw target/uninstall_aarch64-apple-darwin.raw target/self_encrypt_installer_aarch64-apple-darwin.pkg
+          gh release upload ${{ github.ref_name }} target/self_encrypt_aarch64-apple-darwin.raw target/uninstall_aarch64-apple-darwin.raw target/self_encrypt_installer_aarch64-apple-darwin.pkg
