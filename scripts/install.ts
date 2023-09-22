@@ -14,24 +14,26 @@ async function install() {
     if (Deno.build.os !== "darwin" || Deno.build.arch !== "aarch64") {
       // platforms: --target [ x86_64-unknown-linux-gnu, x86_64-pc-windows-msvc, x86_64-apple-darwin, aarch64-apple-darwin]
       throw new Error(
-        "Sorry this is only available on darwin aarch64 right now"
+        "Sorry this is only available on darwin aarch64 right now",
       );
     }
 
     console.log(
-      colors.brightWhite(`\nself_encrypt 🔐 will install in ${INSTALL_PATH}`)
+      colors.brightWhite(`\nself_encrypt 🔐 will install in ${INSTALL_PATH}`),
     );
     const shouldProceed = await Confirm.prompt("Should the installer proceed?");
     if (!shouldProceed) {
       console.log(
-        colors.brightYellow("Halting installation. No files have been written.")
+        colors.brightYellow(
+          "Halting installation. No files have been written.",
+        ),
       );
       return;
     }
     const doesExist = await doesFolderExist();
     if (doesExist) {
       throw new Error(
-        "It looks like you already have self_encrypt 🔐 installed. Please uninstall it before reinstalling."
+        "It looks like you already have self_encrypt 🔐 installed. Please uninstall it before reinstalling.",
       );
     }
 
@@ -43,12 +45,12 @@ async function install() {
 
     console.log(colors.brightBlue("Finding binaries on GitHub..."));
     const selfEncryptResp = await fetch(
-      "https://github.com/JakeAve/self_encrypt/releases/latest/download/self_encrypt_aarch64-apple-darwin.raw"
+      "https://github.com/JakeAve/self_encrypt/releases/latest/download/self_encrypt_aarch64-apple-darwin.raw",
     );
 
     if (!selfEncryptResp.ok) {
       throw new Error(
-        `Could now download ${selfEncryptResp.url}. Try downloading manually.`
+        `Could now download ${selfEncryptResp.url}. Try downloading manually.`,
       );
     }
 
@@ -65,15 +67,15 @@ async function install() {
     await appendToProfile();
 
     console.log(
-      colors.brightBlue("Finding binaries for uninstaller on GitHub...")
+      colors.brightBlue("Finding binaries for uninstaller on GitHub..."),
     );
     const uninstallerResp = await fetch(
-      "https://github.com/JakeAve/self_encrypt/releases/latest/download/uninstall_aarch64-apple-darwin.raw"
+      "https://github.com/JakeAve/self_encrypt/releases/latest/download/uninstall_aarch64-apple-darwin.raw",
     );
 
     if (!uninstallerResp.ok) {
       throw new Error(
-        `Could now download ${uninstallerResp.url}. Try downloading manually.`
+        `Could now download ${uninstallerResp.url}. Try downloading manually.`,
       );
     }
 
@@ -90,14 +92,14 @@ async function install() {
     console.log(colors.brightGreen("✅ Installation successful 🎉 🎊"));
 
     const shouldCreateKey = await Confirm.prompt(
-      "Would you like to create your first key?"
+      "Would you like to create your first key?",
     );
 
     if (shouldCreateKey) {
       const shouldUsePassAndSalt = await Confirm.prompt(
         colors.brightWhite(
-          'Would you like to use a password and salt to create a repeatable key? (Enter "n" to create a key at random)'
-        )
+          'Would you like to use a password and salt to create a repeatable key? (Enter "n" to create a key at random)',
+        ),
       );
 
       if (shouldUsePassAndSalt) {
@@ -116,13 +118,15 @@ async function install() {
     }
 
     console.log(
-      colors.brightWhite("Refresh your terminal to start using self_encrypt 🔐")
+      colors.brightWhite(
+        "Refresh your terminal to start using self_encrypt 🔐",
+      ),
     );
   } catch (err) {
     console.log(
       colors.brightYellow(
-        "Ran into an error. Attempting to undo all install progress..."
-      )
+        "Ran into an error. Attempting to undo all install progress...",
+      ),
     );
     const doesExist = await doesFolderExist();
     if (doesExist) {
@@ -130,7 +134,7 @@ async function install() {
     }
     console.log(colors.brightGreen("Done."));
     console.log(
-      colors.brightYellow("See the error below to see why the install failed")
+      colors.brightYellow("See the error below to see why the install failed"),
     );
     throw err;
   }
@@ -151,14 +155,15 @@ async function doesFolderExist() {
 }
 
 async function appendToProfile() {
-  const profileString = `\n\n# self_encrypt\nexport SELF_ENCRYPT_INSTALL="${INSTALL_PATH}"\nexport PATH="$SELF_ENCRYPT_INSTALL/bin:$PATH"`;
+  const profileString =
+    `\n\n# self_encrypt\nexport SELF_ENCRYPT_INSTALL="${INSTALL_PATH}"\nexport PATH="$SELF_ENCRYPT_INSTALL/bin:$PATH"`;
   const shell = Deno.env.get("SHELL");
   if (!shell) {
     console.log(colors.brightBlue("Could not detect your shell environment"));
     console.log(
       colors.brightBlue(
-        "Copy and paste the following variables to your .zshrc, .bash_profile or similar"
-      )
+        "Copy and paste the following variables to your .zshrc, .bash_profile or similar",
+      ),
     );
     console.log(profileString);
     return;
