@@ -1,7 +1,7 @@
 import { EncDecScriptHelper } from "./EncDecScriptHelper.ts";
 
 const HELPER_KEY_PATH = "./test_utils/helper.key";
-const TEXT_FILE_PATH = "test_utils/test.txt";
+const TEXT_FILE_PATH = "./test_utils/test.txt";
 
 Deno.bench(async function encryptFileScriptBench(b) {
   b.start();

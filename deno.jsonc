@@ -1,10 +1,15 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts",
-    "install": "deno run --allow-env --allow-read --allow-write ./utils/install.ts",
-    "generate": "deno run --allow-write --allow-read ./scripts/genKey.ts",
-    "encrypt": "deno run --allow-read --allow-write ./scripts/encryptFile.ts",
-    "decrypt": "deno run --allow-read --allow-write ./scripts/decryptFile.ts"
+    "build:installer:aarch64-apple-darwin": "deno compile --allow-net=github.com --allow-env --allow-read --allow-write --target aarch64-apple-darwin --output ./target/self_encrypt_installer_aarch64-apple-darwin.pkg ./scripts/install.ts",
+    "build:self_encrypt:aarch64-apple-darwin": "deno compile --allow-env --allow-read --allow-write --target aarch64-apple-darwin --output ./target/self_encrypt_aarch64-apple-darwin.raw ./scripts/self_encrypt.ts",
+    "build:uninstaller:aarch64-apple-darwin": "deno compile --allow-env --allow-read --allow-write --target aarch64-apple-darwin --output ./target/uninstall_aarch64-apple-darwin.raw ./scripts/uninstall.ts",
+    "build": "deno task build:installer:aarch64-apple-darwin && deno task build:self_encrypt:aarch64-apple-darwin && deno task build:uninstaller:aarch64-apple-darwin",
+    "dec": "deno task self_encrypt dec",
+    "enc": "deno task self_encrypt enc",
+    "gen": "deno task self_encrypt gen",
+    "install": "deno run --allow-env --allow-read --allow-write --allow-net ./scripts/install.ts",
+    "self_encrypt": "deno run --allow-read --allow-write --allow-env ./scripts/self_encrypt.ts",
+    "uninstall": "deno run --allow-env --allow-read --allow-write ./scripts/uninstall.ts"
   },
   "imports": {
     "$std/": "https://deno.land/std@0.201.0/"
