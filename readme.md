@@ -8,6 +8,18 @@ internet connection and no fee.
 Because self_encrypt depends on multiple directories and files, the installer is
 the easiest way to set up.
 
+### Deno Install
+
+If you have Deno, you can create the installer using this command:
+
+```bash
+deno install --allow-net=github.com,objects.githubusercontent.com --allow-env --allow-read --allow-write -n self_encrypt_installer https://raw.githubusercontent.com/JakeAve/self_encrypt/v<version>/scripts/install.ts
+self_encrypt_installer
+
+## To uninstall 
+deno install --allow-env --allow-read --allow-write -n uninstall_self_encrypt https://raw.githubusercontent.com/JakeAve/self_encrypt/v<version>/scripts/uninstall.ts
+```
+
 ### Installer
 
 - Download installer for your operating system
@@ -22,14 +34,6 @@ chmod 755 self_encrypt_installer_aarch64-apple-darwin.pkg
 ```
 
 Note: The installer will access GitHub to download the latest release
-
-### Deno Install
-
-If you have Deno, you can create the installer using this command:
-
-```bash
-deno install --allow-net=github.com,objects.githubusercontent.com --allow-env --allow-read --allow-write -n self_encrypt_installer_aarch64-apple-darwin https://raw.githubusercontent.com/JakeAve/self_encrypt/main/scripts/install.ts
-```
 
 ### Manual Install
 
