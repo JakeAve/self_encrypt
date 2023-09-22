@@ -5,7 +5,10 @@ internet connection and no fee.
 
 ## Installation
 
-## Installer
+Because self_encrypt depends on multiple directories and files, the installer is
+the easiest way to set up.
+
+### Installer
 
 - Download installer for your operating system
 - Run the installer by executing it directly
@@ -13,18 +16,28 @@ internet connection and no fee.
 Example:
 
 ```bash
-<path-to-installer>/self_encrypt_🔐_installer_aarch64-apple-darwin.pkg
+./self_encrypt_installer_aarch64-apple-darwin.pkg
 ```
 
-Note: The installer will access the internet to download its corresponding
-version
+Note: The installer will access GitHub to download the latest release
 
-## Deno Install
+### Deno Install
 
-If you have Deno, you can use this command:
+If you have Deno, you can create the installer using this command:
 
 ```bash
-deno install --allow-net=raw.githubusercontent.com --allow-read --allow-write -n self_encrypt_🔐_installer_aarch64-apple-darwin.pkg https://raw.githubusercontent.com/JakeAve/self_encrypt/main/scripts/install.ts
+deno install --allow-net=github.com --allow-read --allow-write -n self_encrypt_installer_aarch64-apple-darwin.pkg https://raw.githubusercontent.com/JakeAve/self_encrypt/main/scripts/install.ts
+```
+
+### Manual Install
+
+If you have deno installed, you can install using a deno script. You can also
+build the binaries yourself
+
+```bash
+git close https://github.com/JakeAve/self_encrypt.git
+deno task install ## install using ./scripts/install.ts
+deno task build ## build the binaries to ./target will require additional setup
 ```
 
 ## CLI
