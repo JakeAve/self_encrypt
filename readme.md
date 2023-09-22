@@ -5,7 +5,8 @@ internet connection and no fee.
 
 ## Installation
 
-Because self_encrypt depends on multiple directories and files, the installer is the easiest way to set up.
+Because self_encrypt depends on multiple directories and files, the installer is
+the easiest way to set up.
 
 ### Installer
 
@@ -30,7 +31,8 @@ deno install --allow-net=github.com --allow-read --allow-write -n self_encrypt_i
 
 ### Manual Install
 
-If you have deno installed, you can install using a deno script. You can also build the binaries yourself
+If you have deno installed, you can install using a deno script. You can also
+build the binaries yourself
 
 ```bash
 git close https://github.com/JakeAve/self_encrypt.git
