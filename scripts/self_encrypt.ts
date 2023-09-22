@@ -11,16 +11,16 @@ const KEYS = resolve(MAIN_PATH, "keys_🔑🔑");
 
 const cli = new Command()
   .name("self_encrypt")
-  .version("0.1.0")
+  .version("0.0.1")
   .description("Generate keys, encrypt files and decrypt files")
   .command("enc", "Encrypt command")
-  .arguments("<path_to_file:string> [keyname_or_path_to_key:string]")
+  .arguments("<path_to_file:string> [key-name_or_path_to_key:string]")
   .description(
     "Encrypt a file using one of your keys or using a dynamically generated key, repeatable by entering the same password and salt",
   )
   .action(encryptOrDecrypt("encrypt"))
   .command("dec", "Decrypt command")
-  .arguments("<path_to_file:string> [keyname_or_path_to_key:string]")
+  .arguments("<path_to_file:string> [key-name_or_path_to_key:string]")
   .description(
     "Decrypt a file using one of your keys or using a dynamically generated key, repeatable by entering the same password and salt",
   )

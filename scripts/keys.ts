@@ -141,7 +141,7 @@ async function storeYaml(data: KeysYaml) {
   // todo: Maybe update the deno std yaml stringify?
   const withEmojis = emojify(newContent);
   const disclaimer =
-    `# This file only exists for convenience\n# It should be managed with care because certain values like "notes" and "algothims" once altered, cannot be recovered\n`;
+    `# This file only exists for convenience\n# It should be managed with care because certain values like "notes" and "algorithms" once altered, cannot be recovered\n`;
   await Deno.writeTextFile(KEYS_META, disclaimer + withEmojis);
 }
 

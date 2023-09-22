@@ -1,0 +1,22 @@
+name: Upload Release Assets
+on:
+  release:
+    types: [created]
+jobs:
+  upload-release-asset:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Deno
+        # uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31 # v1.1.2
+        with:
+          deno-version: v1.x
+      - name: Build assets
+        run: "deno task build"
+      - name: Upload assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload $GITHUB_REF target/self_encrypt_aarch64-apple-darwin.raw target/uninstall_aarch64-apple-darwin.raw target/self_encrypt_installer_aarch64-apple-darwin.pkg
