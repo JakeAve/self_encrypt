@@ -49,6 +49,9 @@ const objects = [
   "wheel",
   "xylophone",
   "computer",
+  "phone",
+  "ocean",
+  "puddle",
 ];
 
 const adjectives = [
@@ -102,6 +105,12 @@ const adjectives = [
   "great",
   "easy",
   "simple",
+  "awesome",
+  "cool",
+  "fantastic",
+  "extraordinary",
+  "vintage",
+  "colorful",
 ];
 
 function randomValue(arr: string[]) {
