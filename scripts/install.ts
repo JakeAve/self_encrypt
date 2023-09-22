@@ -1,5 +1,4 @@
-import { colors, Confirm, Input, resolve } from "../deps.ts";
-import { addKey } from "./keys.ts";
+import { colors, Confirm, resolve } from "../deps.ts";
 
 const HOME = Deno.env.get("HOME") as string;
 const MAIN_PATH = resolve(HOME, ".self_encrypt_🔐");
@@ -75,31 +74,16 @@ async function install() {
 
   console.log(colors.brightGreen("✅ Installation successful 🎉 🎊"));
 
-  const shouldCreateKey = await Confirm.prompt(
-    "Would you like to create your first key?",
+  console.log(
+    colors.brightWhite(
+      `\nRestart you terminal using ${
+        colors.bold(
+          "zsh/bash/sh",
+        )
+      } then you can create your first key using:`,
+    ),
   );
-
-  if (shouldCreateKey) {
-    const shouldUsePassAndSalt = await Confirm.prompt(
-      colors.brightWhite(
-        'Would you like to use a password and salt to create a repeatable key? (Enter "n" to create a key at random)',
-      ),
-    );
-
-    if (shouldUsePassAndSalt) {
-      const password = await Input.prompt("Enter password:");
-      const salt = await Input.prompt("Enter salt:");
-
-      if (!password || !salt) {
-        console.log(colors.brightYellow("Invalid password or salt"));
-        console.log(colors.brightYellow("No key was created"));
-        return;
-      }
-      await addKey({ dir: KEYS, salt, password }, "");
-    } else {
-      await addKey({ dir: KEYS }, "");
-    }
-  }
+  console.log(colors.bold(colors.brightWhite("self_encrypt keys gen")));
 }
 
 async function doesFolderExist() {
