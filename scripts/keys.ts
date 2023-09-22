@@ -11,7 +11,6 @@ import {
 } from "../deps.ts";
 import { generateKey } from "../utils/generateKey.ts";
 import { emojify } from "../utils/emojify.ts";
-import { brightYellow } from "$std/fmt/colors.ts";
 import { makeRandomName } from "../utils/makeRandomName.ts";
 
 const MAIN_PATH = Deno.env.get("SELF_ENCRYPT_INSTALL");
@@ -164,7 +163,7 @@ async function removeKey(name: string) {
     pathToRemove = selected.value;
   }
   if (!matching.length) {
-    console.log(brightYellow(`No key is named ${name}`));
+    console.log(colors.brightYellow(`No key is named ${name}`));
   }
   if (matching.length === 1) {
     pathToRemove = matching[0].path;
