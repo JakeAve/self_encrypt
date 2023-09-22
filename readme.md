@@ -16,6 +16,8 @@ the easiest way to set up.
 Example:
 
 ```bash
+chmod 755 self_encrypt_installer_aarch64-apple-darwin.pkg
+# Open it within file finder and mark it as safe
 ./self_encrypt_installer_aarch64-apple-darwin.pkg
 ```
 
@@ -26,7 +28,7 @@ Note: The installer will access GitHub to download the latest release
 If you have Deno, you can create the installer using this command:
 
 ```bash
-deno install --allow-net=github.com --allow-read --allow-write -n self_encrypt_installer_aarch64-apple-darwin.pkg https://raw.githubusercontent.com/JakeAve/self_encrypt/main/scripts/install.ts
+deno install --allow-net=github.com,objects.githubusercontent.com --allow-env --allow-read --allow-write -n self_encrypt_installer_aarch64-apple-darwin https://raw.githubusercontent.com/JakeAve/self_encrypt/main/scripts/install.ts
 ```
 
 ### Manual Install
@@ -35,7 +37,7 @@ If you have deno installed, you can install using a deno script. You can also
 build the binaries yourself
 
 ```bash
-git close https://github.com/JakeAve/self_encrypt.git
+git clone https://github.com/JakeAve/self_encrypt.git
 deno task install ## install using ./scripts/install.ts
 deno task build ## build the binaries to ./target will require additional setup
 ```
