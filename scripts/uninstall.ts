@@ -1,6 +1,9 @@
-import { colors, Input } from "../deps.ts";
+import { colors, Input, loadEnv } from "../deps.ts";
 
-const MAIN_PATH = Deno.env.get("SELF_ENCRYPT_INSTALL");
+await loadEnv({ export: true });
+
+const VAR_NAME = Deno.env.get("INSTALL_PATH_VARIABLE_NAME") as string;
+const MAIN_PATH = Deno.env.get(VAR_NAME);
 
 const CONFIRMATION_TEXT = "destroy my keys";
 

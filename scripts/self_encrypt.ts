@@ -11,7 +11,7 @@ const KEYS = resolve(MAIN_PATH, "keys_🔑🔑");
 
 const cli = new Command()
   .name("self_encrypt")
-  .version("0.0.1")
+  .version("0.1.2")
   .description("Generate keys, encrypt files and decrypt files")
   .command("enc", "Encrypt command")
   .arguments("<path_to_file:string> [key-name_or_path_to_key:string]")

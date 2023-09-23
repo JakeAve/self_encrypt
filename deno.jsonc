@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "build:installer:aarch64-apple-darwin": "deno compile --allow-net=github.com --allow-env --allow-read --allow-write --target aarch64-apple-darwin --output ./target/self_encrypt_installer_aarch64-apple-darwin.pkg ./scripts/install.ts",
+    "build:installer:aarch64-apple-darwin": "deno compile --allow-net=github.com,objects.githubusercontent.com --allow-env --allow-read --allow-write --target aarch64-apple-darwin --output ./target/self_encrypt_installer_aarch64-apple-darwin.pkg ./scripts/install.ts",
     "build:self_encrypt:aarch64-apple-darwin": "deno compile --allow-env --allow-read --allow-write --target aarch64-apple-darwin --output ./target/self_encrypt_aarch64-apple-darwin.raw ./scripts/self_encrypt.ts",
     "build:uninstaller:aarch64-apple-darwin": "deno compile --allow-env --allow-read --allow-write --target aarch64-apple-darwin --output ./target/uninstall_aarch64-apple-darwin.raw ./scripts/uninstall.ts",
     "build": "deno task build:installer:aarch64-apple-darwin && deno task build:self_encrypt:aarch64-apple-darwin && deno task build:uninstaller:aarch64-apple-darwin",

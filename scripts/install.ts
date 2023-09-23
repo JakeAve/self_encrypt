@@ -1,11 +1,17 @@
-import { colors, Confirm, resolve } from "../deps.ts";
+import { colors, Confirm, loadEnv, resolve } from "../deps.ts";
 import { uninstall } from "./uninstall.ts";
 
+await loadEnv({ export: true });
+
+const PATH = Deno.env.get("ENV_DEFINED_INSTALL_PATH") as string;
+const EXE_NAME = Deno.env.get("EXECUTABLE_NAME") as string;
+const VAR_NAME = Deno.env.get("INSTALL_PATH_VARIABLE_NAME") as string;
 const HOME = Deno.env.get("HOME") as string;
-const INSTALL_PATH = resolve(HOME, ".self_encrypt_🔐");
+
+const INSTALL_PATH = resolve(HOME, PATH);
 const KEYS = resolve(INSTALL_PATH, "keys_🔑🔑");
 const BIN = resolve(INSTALL_PATH, "bin");
-const SCRIPT_PATH = resolve(INSTALL_PATH, "bin", "self_encrypt");
+const SCRIPT_PATH = resolve(INSTALL_PATH, "bin", EXE_NAME);
 const UNINSTALL_PATH = resolve(INSTALL_PATH, "bin", "uninstall");
 
 async function install() {
@@ -99,7 +105,7 @@ async function install() {
         } to start using self_encrypt 🔐.\nYou can create your first key using:`,
       ),
     );
-    console.log(colors.bold(colors.brightWhite("self_encrypt keys gen")));
+    console.log(colors.bold(colors.brightWhite(`${EXE_NAME} keys gen`)));
   } catch (err) {
     console.log(
       colors.brightYellow(
@@ -134,7 +140,7 @@ async function doesFolderExist() {
 
 async function appendToProfile() {
   const profileString =
-    `\n\n# self_encrypt\nexport SELF_ENCRYPT_INSTALL="${INSTALL_PATH}"\nexport PATH="$SELF_ENCRYPT_INSTALL/bin:$PATH"`;
+    `\n\n# self_encrypt\nexport ${VAR_NAME}="${INSTALL_PATH}"\nexport PATH="$${VAR_NAME}/bin:$PATH"`;
   const shell = Deno.env.get("SHELL");
   if (!shell) {
     console.log(colors.brightBlue("Could not detect your shell environment"));
