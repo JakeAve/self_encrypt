@@ -13,7 +13,7 @@ export async function uninstall() {
     console.log(colors.brightGreen("Successfully uninstalled"));
   } catch (err) {
     console.error(
-      colors.brightYellow(`The uninstall failed because of ${err}`)
+      colors.brightYellow(`The uninstall failed because of ${err}`),
     );
   }
 }
@@ -24,8 +24,8 @@ if (import.meta.main) {
   }
   const shouldProceed = await Input.prompt(
     colors.brightYellow(
-      `Uninstalling will delete all of the keys associated with self_encrypt. If you want to proceed type "${CONFIRMATION_TEXT}" Would you like to proceed?`
-    )
+      `Uninstalling will delete all of the keys associated with self_encrypt. If you want to proceed type "${CONFIRMATION_TEXT}" Would you like to proceed?`,
+    ),
   );
 
   if (shouldProceed !== CONFIRMATION_TEXT) {

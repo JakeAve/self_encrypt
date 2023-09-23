@@ -16,13 +16,13 @@ const cli = new Command()
   .command("enc", "Encrypt command")
   .arguments("<path_to_file:string> [key-name_or_path_to_key:string]")
   .description(
-    "Encrypt a file using one of your keys or using a dynamically generated key, repeatable by entering the same password and salt"
+    "Encrypt a file using one of your keys or using a dynamically generated key, repeatable by entering the same password and salt",
   )
   .action(encryptOrDecrypt("encrypt"))
   .command("dec", "Decrypt command")
   .arguments("<path_to_file:string> [key-name_or_path_to_key:string]")
   .description(
-    "Decrypt a file using one of your keys or using a dynamically generated key, repeatable by entering the same password and salt"
+    "Decrypt a file using one of your keys or using a dynamically generated key, repeatable by entering the same password and salt",
   )
   .action(encryptOrDecrypt("decrypt"))
   .command("keys", keys);
