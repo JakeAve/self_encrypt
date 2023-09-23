@@ -3,6 +3,7 @@ import {
   Command,
   Confirm,
   Input,
+  loadEnv,
   parseYAML,
   resolve,
   Select,
@@ -13,9 +14,12 @@ import { generateKey } from "../utils/generateKey.ts";
 import { emojify } from "../utils/emojify.ts";
 import { makeRandomName } from "../utils/makeRandomName.ts";
 
-const MAIN_PATH = Deno.env.get("SELF_ENCRYPT_INSTALL");
+await loadEnv({ export: true });
+
+const VAR_NAME = Deno.env.get("INSTALL_PATH_VARIABLE_NAME") as string;
+const MAIN_PATH = Deno.env.get(VAR_NAME);
 if (!MAIN_PATH) {
-  throw new Error("Could not find .self_encrypt_🔐 path");
+  throw new Error("Could not find self_encrypt_🔐 path");
 }
 const KEYS = resolve(MAIN_PATH, "keys_🔑🔑");
 const KEYS_META = resolve(MAIN_PATH, "keys_meta");

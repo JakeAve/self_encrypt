@@ -3,3 +3,5 @@
 /test_utils/temp-*
 
 /target
+
+.env

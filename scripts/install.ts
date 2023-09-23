@@ -1,11 +1,17 @@
-import { colors, Confirm, resolve } from "../deps.ts";
+import { colors, Confirm, loadEnv, resolve } from "../deps.ts";
 import { uninstall } from "./uninstall.ts";
 
+await loadEnv({ export: true });
+
+const PATH = Deno.env.get("ENV_DEFINED_INSTALL_PATH") as string;
+const EXE_NAME = Deno.env.get("EXECUTABLE_NAME") as string;
+const VAR_NAME = Deno.env.get("INSTALL_PATH_VARIABLE_NAME") as string;
 const HOME = Deno.env.get("HOME") as string;
-const INSTALL_PATH = resolve(HOME, ".self_encrypt_🔐");
+
+const INSTALL_PATH = resolve(HOME, PATH);
 const KEYS = resolve(INSTALL_PATH, "keys_🔑🔑");
 const BIN = resolve(INSTALL_PATH, "bin");
-const SCRIPT_PATH = resolve(INSTALL_PATH, "bin", "self_encrypt");
+const SCRIPT_PATH = resolve(INSTALL_PATH, "bin", EXE_NAME);
 const UNINSTALL_PATH = resolve(INSTALL_PATH, "bin", "uninstall");
 
 async function install() {
@@ -13,26 +19,24 @@ async function install() {
     if (Deno.build.os !== "darwin" || Deno.build.arch !== "aarch64") {
       // platforms: --target [ x86_64-unknown-linux-gnu, x86_64-pc-windows-msvc, x86_64-apple-darwin, aarch64-apple-darwin]
       throw new Error(
-        "Sorry this is only available on darwin aarch64 right now",
+        "Sorry this is only available on darwin aarch64 right now"
       );
     }
 
     console.log(
-      colors.brightWhite(`\nself_encrypt 🔐 will install in ${INSTALL_PATH}`),
+      colors.brightWhite(`\nself_encrypt 🔐 will install in ${INSTALL_PATH}`)
     );
     const shouldProceed = await Confirm.prompt("Should the installer proceed?");
     if (!shouldProceed) {
       console.log(
-        colors.brightYellow(
-          "Halting installation. No files have been written.",
-        ),
+        colors.brightYellow("Halting installation. No files have been written.")
       );
       return;
     }
     const doesExist = await doesFolderExist();
     if (doesExist) {
       throw new Error(
-        "It looks like you already have self_encrypt 🔐 installed. Please uninstall it before reinstalling.",
+        "It looks like you already have self_encrypt 🔐 installed. Please uninstall it before reinstalling."
       );
     }
 
@@ -44,12 +48,12 @@ async function install() {
 
     console.log(colors.brightBlue("Finding binaries on GitHub..."));
     const selfEncryptResp = await fetch(
-      "https://github.com/JakeAve/self_encrypt/releases/latest/download/self_encrypt_aarch64-apple-darwin.raw",
+      "https://github.com/JakeAve/self_encrypt/releases/latest/download/self_encrypt_aarch64-apple-darwin.raw"
     );
 
     if (!selfEncryptResp.ok) {
       throw new Error(
-        `Could now download ${selfEncryptResp.url}. Try downloading manually.`,
+        `Could now download ${selfEncryptResp.url}. Try downloading manually.`
       );
     }
 
@@ -66,15 +70,15 @@ async function install() {
     await appendToProfile();
 
     console.log(
-      colors.brightBlue("Finding binaries for uninstaller on GitHub..."),
+      colors.brightBlue("Finding binaries for uninstaller on GitHub...")
     );
     const uninstallerResp = await fetch(
-      "https://github.com/JakeAve/self_encrypt/releases/latest/download/uninstall_aarch64-apple-darwin.raw",
+      "https://github.com/JakeAve/self_encrypt/releases/latest/download/uninstall_aarch64-apple-darwin.raw"
     );
 
     if (!uninstallerResp.ok) {
       throw new Error(
-        `Could now download ${uninstallerResp.url}. Try downloading manually.`,
+        `Could now download ${uninstallerResp.url}. Try downloading manually.`
       );
     }
 
@@ -92,19 +96,17 @@ async function install() {
 
     console.log(
       colors.brightWhite(
-        `\nRefresh your terminal using ${
-          colors.bold(
-            "zsh/bash/sh",
-          )
-        } to start using self_encrypt 🔐.\nYou can create your first key using:`,
-      ),
+        `\nRefresh your terminal using ${colors.bold(
+          "zsh/bash/sh"
+        )} to start using self_encrypt 🔐.\nYou can create your first key using:`
+      )
     );
-    console.log(colors.bold(colors.brightWhite("self_encrypt keys gen")));
+    console.log(colors.bold(colors.brightWhite(`${EXE_NAME} keys gen`)));
   } catch (err) {
     console.log(
       colors.brightYellow(
-        "Ran into an error. Attempting to undo all install progress...",
-      ),
+        "Ran into an error. Attempting to undo all install progress..."
+      )
     );
     const doesExist = await doesFolderExist();
     if (doesExist) {
@@ -112,7 +114,7 @@ async function install() {
     }
     console.log(colors.brightGreen("Done."));
     console.log(
-      colors.brightYellow("See the error below to see why the install failed"),
+      colors.brightYellow("See the error below to see why the install failed")
     );
     throw err;
   }
@@ -133,15 +135,14 @@ async function doesFolderExist() {
 }
 
 async function appendToProfile() {
-  const profileString =
-    `\n\n# self_encrypt\nexport SELF_ENCRYPT_INSTALL="${INSTALL_PATH}"\nexport PATH="$SELF_ENCRYPT_INSTALL/bin:$PATH"`;
+  const profileString = `\n\n# self_encrypt\nexport ${VAR_NAME}="${INSTALL_PATH}"\nexport PATH="$${VAR_NAME}/bin:$PATH"`;
   const shell = Deno.env.get("SHELL");
   if (!shell) {
     console.log(colors.brightBlue("Could not detect your shell environment"));
     console.log(
       colors.brightBlue(
-        "Copy and paste the following variables to your .zshrc, .bash_profile or similar",
-      ),
+        "Copy and paste the following variables to your .zshrc, .bash_profile or similar"
+      )
     );
     console.log(profileString);
     return;
